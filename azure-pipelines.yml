@@ -13,7 +13,7 @@ steps:
 - script: |
     echo This is pipeline $(System.DefinitionId)
     sourceanalyzer -b test -clean
-    sourceanalyzer -b test devenv dotnetcore-sample.sln /REBUILD debug
+    sourceanalyzer -b test msbuild dotnetcore-sample.sln -t:rebuild
     sourceanalyzer -b test -scan -f output.fpr
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
