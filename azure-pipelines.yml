@@ -17,7 +17,7 @@ steps:
     sourceanalyzer -b test -scan -f output.fpr
     echo fpr to workingDirectory $(Agent.BuildDirectory)
   workingDirectory: $(Agent.BuildDirectory)
-  env: {MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks, MSBuildPath=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe}
+  env: {MSBuildSDKsPath="C:\Program Files\dotnet\sdk\2.1.504\Sdks", MSBuildPath="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"}
   displayName: MSBuild Sourceanalyzer
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
