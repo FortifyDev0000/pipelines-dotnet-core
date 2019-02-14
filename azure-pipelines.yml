@@ -1,25 +1,24 @@
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
-#pool:
-#  vmImage: 'Ubuntu 16.04'
 pool: Default
 
 variables:
   buildConfiguration: 'Release'
+  msbuildPath: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe
 
 steps:
 - script: 
-    echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Build.Repository.LocalPath)
-    echo %MSBuildSDKsPath% set in CMD session
+    echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Agent.BuildDirectory)
+    echo %MSBuildSDKsPath% set in CMD session, $(Build.Repository.LocalPath) is local build repository
     sourceanalyzer -b test -clean
     echo Test build cleaned by sourceanalyzer
-    sourceanalyzer -b test "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
+    sourceanalyzer -b test $(msbuildPath) dotnetcore-sample.sln -t:rebuild
     echo msbuild run complete
     sourceanalyzer -b test -scan -f output.fpr
-    echo fpr to workingDirectory $(Build.Repository.LocalPath)
-  workingDirectory: $(Build.Repository.LocalPath)
-  env: { MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks }
+    echo fpr to workingDirectory $(Agent.BuildDirectory)
+  workingDirectory: $(Agent.BuildDirectory)
+  env: {MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks}
   displayName: MSBuild Sourceanalyzer
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
