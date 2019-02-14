@@ -10,17 +10,17 @@ variables:
 
 steps:
 - script: |
-    echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Agent.BuildDirectory)
+    echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Build.Repository.LocalPath)
     SET "MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks"
-    echo %MSBuildSDKsPath% and %MSBuildPath% set in CMD session, $(Build.Repository.LocalPath) is local build repository
+    echo %MSBuildSDKsPath% set in CMD session
     $(scan) $(fortifyBuild) -clean
     echo $(fortifyBuild) build cleaned by sourceanalyzer
     $(scan) $(fortifyBuild) "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
     echo MSBuild run complete
     $(scan) $(fortifyBuild) -scan -f output.fpr
-    echo fpr in $(workingDirectory) $(Agent.BuildDirectory)
-  workingDirectory: $(Agent.BuildDirectory)
-  displayName: MSBuild Sourceanalyzer Integration
+    echo fpr in $(workingDirectory) $(Build.Repository.LocalPath)
+  workingDirectory: $(Build.Repository.LocalPath)
+  displayName: MSBuild Fortify Sourceanalyzer Integration
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
 #    dotnet test dotnetcore-tests --configuration $(buildConfiguration) --logger trx
