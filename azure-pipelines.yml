@@ -5,7 +5,6 @@ pool: Default
 
 variables:
   buildConfiguration: 'Release'
-  msbuildPath: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe
 
 steps:
 - script: 
@@ -13,12 +12,12 @@ steps:
     echo %MSBuildSDKsPath% set in CMD session, $(Build.Repository.LocalPath) is local build repository
     sourceanalyzer -b test -clean
     echo Test build cleaned by sourceanalyzer
-    sourceanalyzer -b test $(msbuildPath) dotnetcore-sample.sln -t:rebuild
+    sourceanalyzer -b test %MSBuildPath% dotnetcore-sample.sln -t:rebuild
     echo msbuild run complete
     sourceanalyzer -b test -scan -f output.fpr
     echo fpr to workingDirectory $(Agent.BuildDirectory)
   workingDirectory: $(Agent.BuildDirectory)
-  env: {MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks}
+  env: {MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks, MSBuildPath=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe}
   displayName: MSBuild Sourceanalyzer
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
