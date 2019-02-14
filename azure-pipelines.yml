@@ -12,6 +12,8 @@ variables:
 steps:
 - script: |
     echo This is pipeline $(System.DefinitionId)
+    SET "MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks"
+    echo %MSBuildSDKsPath% set in CMD session
     cd "C:\Users\mfadmin\source\repos\CopyNetCoreDemo"
     echo cd to CopyNetCoreDemo done
     sourceanalyzer -b test -clean
