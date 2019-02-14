@@ -11,13 +11,13 @@ variables:
 
 steps:
 - script: |
-    echo This is pipeline $(System.DefinitionId)
-#    dotnet msbuild dotnetcore-sample.sln -t:rebuild    
+    echo This is pipeline $(System.DefinitionId)   
     sourceanalyzer -b test -clean
-    echo Test cleaned by sourceanalyzer
+    echo Test build cleaned by sourceanalyzer
     sourceanalyzer -b test "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
-    echo msbuild run!
+    echo msbuild run?
     sourceanalyzer -b test -scan -f output.fpr
+    echo fpr output?
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
 #    dotnet test dotnetcore-tests --configuration $(buildConfiguration) --logger trx
