@@ -11,7 +11,9 @@ variables:
 
 steps:
 - script: |
-    echo This is pipeline $(System.DefinitionId)   
+    echo This is pipeline $(System.DefinitionId)
+    cd "C:\Users\mfadmin\source\repos\CopyNetCoreDemo"
+    echo cd to CopyNetCoreDemo done
     sourceanalyzer -b test -clean
     echo Test build cleaned by sourceanalyzer
     sourceanalyzer -b test "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
