@@ -15,6 +15,8 @@ steps:
     echo %MSBuildSDKsPath% set in CMD session
     $(scan) $(fortifyBuild) -clean
     echo $(fortifyBuild) build cleaned by sourceanalyzer
+    dotnet restore
+    echo dotnet restore run?
     $(scan) $(fortifyBuild) "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
     echo MSBuild run complete
     $(scan) $(fortifyBuild) -scan -f output.fpr
