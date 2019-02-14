@@ -7,7 +7,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: 
+- script: |
     echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Agent.BuildDirectory)
     SET "MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks"
     SET "MSBuildPath=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"
