@@ -6,18 +6,18 @@ pool: Default
 variables:
   buildConfiguration: 'Release'
   fortifyBuild: 'test'
+  scan: 'sourceanalyzer -b'
 
 steps:
 - script: |
     echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Agent.BuildDirectory)
     SET "MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks"
     echo %MSBuildSDKsPath% and %MSBuildPath% set in CMD session, $(Build.Repository.LocalPath) is local build repository
-    sourceanalyzer -b $(fortifyBuild) -clean
+    $(scan) $(fortifyBuild) -clean
     echo $(fortifyBuild) build cleaned by sourceanalyzer
-    sourceanalyzer -b $(fortifyBuild) "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"\
-     dotnetcore-sample.sln -t:rebuild
+    $(scan) $(fortifyBuild) "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
     echo MSBuild run complete
-    sourceanalyzer -b $(fortifyBuild) -scan -f output.fpr
+    $(scan) $(fortifyBuild) -scan -f output.fpr
     echo fpr in $(workingDirectory) $(Agent.BuildDirectory)
   workingDirectory: $(Agent.BuildDirectory)
   displayName: MSBuild Sourceanalyzer Integration
