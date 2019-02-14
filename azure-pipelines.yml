@@ -9,17 +9,18 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: |
-  workingDirectory: $(Build.Repository.LocalPath)
+- script: 
     echo This is pipeline $(System.DefinitionId), workingDirectory set to $(Build.Repository.LocalPath)
-    SET "MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks"
     echo %MSBuildSDKsPath% set in CMD session
     sourceanalyzer -b test -clean
     echo Test build cleaned by sourceanalyzer
     sourceanalyzer -b test "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
-    echo msbuild run?
+    echo msbuild run complete
     sourceanalyzer -b test -scan -f output.fpr
-    echo fpr output?
+    echo fpr to workingDirectory $(Build.Repository.LocalPath)
+  workingDirectory: $(Build.Repository.LocalPath)
+  env: { MSBuildSDKsPath=C:\Program Files\dotnet\sdk\2.1.504\Sdks }
+  displayName: MSBuild Sourceanalyzer
 #- script: |
 #    dotnet build --configuration $(buildConfiguration)
 #    dotnet test dotnetcore-tests --configuration $(buildConfiguration) --logger trx
