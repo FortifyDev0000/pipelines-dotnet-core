@@ -7,6 +7,7 @@ variables:
   buildConfiguration: 'Release'
   fortifyBuild: 'test'
   scan: 'sourceanalyzer -b'
+  output: 'dotnet_output.fpr'
 
 steps:
 - script: |
@@ -15,12 +16,12 @@ steps:
     echo %MSBuildSDKsPath% set in CMD session
     $(scan) $(fortifyBuild) -clean
     echo $(fortifyBuild) build cleaned by sourceanalyzer
-    dotnet restore
+    "C:\Program Files\dotnet\dotnet.exe" restore
     echo dotnet restore run?
     $(scan) $(fortifyBuild) "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" dotnetcore-sample.sln -t:rebuild
-    echo MSBuild run complete
-    $(scan) $(fortifyBuild) -scan -f output.fpr
-    echo fpr in $(workingDirectory) $(Build.Repository.LocalPath)
+    echo MSBuild translation complete, scan in progress
+    $(scan) $(fortifyBuild) -scan -f "C:\Temp\$(output)"
+    echo scan complete, fpr in C:\Temp\output.fpr
   workingDirectory: $(Build.Repository.LocalPath)
   displayName: MSBuild Fortify Sourceanalyzer Integration
 #- script: |
